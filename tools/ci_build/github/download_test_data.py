@@ -69,7 +69,7 @@ def get_endpoint_by_region(current_endpoint, azure_location):
 
 def get_region_based_url(url, azure_location):
     current_endpoint = urlsplit(url).netloc
-    endpoint_by_region = get_endpoint_by_region(current_endpoint, args.azure_region)
+    endpoint_by_region = get_endpoint_by_region(current_endpoint, azure_location)
     url = url.replace(current_endpoint, endpoint_by_region)
     print("url changed to %s" % url)
     return url
@@ -139,8 +139,9 @@ if args.edge_device:
         raise Exception(local_file_name + " does not exist on edge device. Downloading test data step failed.")
 else:
     all_downloads_done = False
-    azure_region = get_azure_region()
-
+    azure_region = args.azure_region
+    if not azure_region:
+       azure_region = get_azure_region()
     try:
         # Download test data
         url = get_region_based_url(args.test_data_url, azure_region)
