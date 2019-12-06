@@ -58,14 +58,7 @@ jobs:
   - task: NuGetToolInstaller@0
     displayName: Use Nuget 4.9
     inputs:
-      versionSpec: 4.9.4
-
-  - task: PowerShell@2
-    displayName: 'Download AzCopy (used for download test data script)'
-    inputs:
-      targetType: 'inline'
-      script: |
-        Invoke-WebRequest -OutFile $(Build.BinariesDirectory)\azcopy.exe https://onnxruntimetestdata.blob.core.windows.net/models/azcopy.exe
+      versionSpec: 4.9.4  
 
   - task: BatchScript@1
     displayName: 'setup env'
