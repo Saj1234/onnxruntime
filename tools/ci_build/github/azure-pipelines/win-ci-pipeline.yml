@@ -25,6 +25,14 @@ jobs:
       versionSpec: '3.7' 
       addToPath: true 
       architecture: $(buildArch)
+
+  - task: BatchScript@1
+    displayName: 'setup env'
+    inputs:
+      filename: '$(Build.SourcesDirectory)\tools\ci_build\github\windows\$(EnvSetupScript)'
+      modifyEnvironment: true
+      workingFolder: '$(Build.BinariesDirectory)'
+
   - script: |
      python -m pip install -q pyopenssl setuptools wheel numpy     
      set USE_MSVC_STATIC_RUNTIME=1
@@ -67,12 +75,7 @@ jobs:
     inputs:
       versionSpec: 4.9.4  
 
-  - task: BatchScript@1
-    displayName: 'setup env'
-    inputs:
-      filename: '$(Build.SourcesDirectory)\tools\ci_build\github\windows\$(EnvSetupScript)'
-      modifyEnvironment: true
-      workingFolder: '$(Build.BinariesDirectory)'     
+   
 
   - task: PythonScript@0
     displayName: 'Download test data'
