@@ -25,7 +25,14 @@ jobs:
       versionSpec: '3.7' 
       addToPath: true 
       architecture: $(buildArch)
-
+  - script: |
+     python -m pip install -q pyopenssl setuptools wheel numpy     
+     set USE_MSVC_STATIC_RUNTIME=1
+     robocopy C:\vcpkg\packages\protobuf_x64-windows-static\tools\protobuf C:\vcpkg\packages\protobuf_x64-windows-static\bin
+     python -m pip install $(Build.SourcesDirectory)\cmake\external\onnx
+    workingDirectory: '$(Build.BinariesDirectory)'
+    displayName: 'Install python modules'
+    
   - task: PythonScript@0
     displayName: 'Generate cmake config'
     inputs:
@@ -65,15 +72,7 @@ jobs:
     inputs:
       filename: '$(Build.SourcesDirectory)\tools\ci_build\github\windows\$(EnvSetupScript)'
       modifyEnvironment: true
-      workingFolder: '$(Build.BinariesDirectory)'
-
-  - script: |
-     python -m pip install -q pyopenssl setuptools wheel numpy     
-     set USE_MSVC_STATIC_RUNTIME=1
-     robocopy C:\vcpkg\packages\protobuf_x64-windows-static\tools\protobuf C:\vcpkg\packages\protobuf_x64-windows-static\bin
-     python -m pip install $(Build.SourcesDirectory)\cmake\external\onnx
-    workingDirectory: '$(Build.BinariesDirectory)'
-    displayName: 'Install python modules'        
+      workingFolder: '$(Build.BinariesDirectory)'     
 
   - task: PythonScript@0
     displayName: 'Download test data'
