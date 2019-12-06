@@ -97,6 +97,15 @@ jobs:
       workingDirectory: '$(Build.SourcesDirectory)\csharp'      
 
   - task: DotNetCoreCLI@2
+    displayName: 'Build C#'    
+    inputs:
+      command: build
+      projects: '$(Build.SourcesDirectory)\csharp\OnnxRuntime.CSharp.sln'
+      configuration: '$(BuildConfig)'          
+      arguments: '--configuration $(BuildConfig) -p:Platform="Any CPU" -p:OnnxRuntimeBuildDirectory="$(Build.BinariesDirectory)" -p:OrtPackageId=$(OrtPackageId)'
+      workingDirectory: '$(Build.SourcesDirectory)\csharp'
+
+  - task: DotNetCoreCLI@2
     displayName: 'Test C#'
     condition: and(succeeded(), eq(variables['BuildConfig'], 'RelWithDebInfo'))
     inputs:
