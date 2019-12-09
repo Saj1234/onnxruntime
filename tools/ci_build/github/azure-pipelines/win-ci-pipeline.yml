@@ -35,9 +35,6 @@ jobs:
 
   - script: |
      python -m pip install -q pyopenssl setuptools wheel numpy     
-     set USE_MSVC_STATIC_RUNTIME=1
-     robocopy C:\vcpkg\packages\protobuf_x64-windows-static\tools\protobuf C:\vcpkg\packages\protobuf_x64-windows-static\bin
-     python -m pip install $(Build.SourcesDirectory)\cmake\external\onnx
     workingDirectory: '$(Build.BinariesDirectory)'
     displayName: 'Install python modules'
     
